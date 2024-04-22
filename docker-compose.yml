@@ -1,0 +1,69 @@
+#docker compose --env-file variables.env up -d
+#docker compose --env-file variables.env down -v
+
+services:
+  snowflake:
+    image: inductiveautomation/ignition:${IGN_VERSION:-latest}
+    container_name: ${IGN_CONTAINER:-ign-snowflake}
+    hostname: ${IGN_HOSTNAME:-ign-snowflake}
+    user: 0:0
+    volumes:
+      # Gateway backup
+      - ./gw-init/GatewayBackup.gwbk:/restore.gwbk
+      # Ignition data
+      - ignsnowflake:/usr/local/bin/ignition/data
+    labels:
+      - traefik.enable=true
+      - traefik.hostname=${IGN_HOSTNAME:-ign-snowflake}
+    environment:
+      ACCEPT_IGNITION_EULA: 'Y'
+      GATEWAY_ADMIN_USERNAME: ${IGN_USERNAME:-admin}
+      GATEWAY_ADMIN_PASSWORD: ${IGN_PASSWORD:-password}
+      IGNITION_EDITION: ${IGN_EDITION:-standard}
+      TZ: ${IGN_TZ:-America/New_York}
+      DISABLE_QUICKSTART: ${ING_SKIP_QUICKSTART:-false}
+    command: >
+      -n ${IGN_GATEWAY_NAME:-Demo}
+      -h 80
+      -s 443
+      -a ${IGN_HOSTNAME:-ign-snowflake}
+      -r /restore.gwbk
+    networks:
+      - default
+  #-----------------------------------------------------------------------------------------------------------------------------  
+  #Postgres Ignition Connection Settings
+      #Name: Postgres
+      #Username: ignition
+      #Password: ignition
+
+    #Gateway running on localhost:
+      #Connect URL: jdbc:postgresql://postgres.localtest.me:5430/postgres
+    #Gateway running in dockerstack:
+      #Connect URL: jdbc:postgresql://postgresso/postgres
+  pgsnowflake:
+    image: postgres
+    hostname: ${POSTG_HOSTNAME:-pg-snowflake}
+    container_name: ${POSTG_CONTAINER:-pg-snowflake}
+    volumes:
+      - pgsnowflake:/var/lib/postgresql/data
+    labels:
+      - traefik.enable=true
+      - traefik.hostname=${POSTG_HOSTNAME:-pg-snowflake}
+    environment:
+      POSTGRES_DB: ${POSTG_DB:-postgres}
+      POSTGRES_USER: ${POSTG_USER:-ignition}
+      POSTGRES_PASSWORD: ${POSTG_PASSWORD:-ignition}
+      TZ: ${IGN_TZ:-America/New_York}
+    ports:
+      - ${POSTG_PORT:-5426}:5432
+    networks:
+      - default
+
+networks:
+  default:
+    external: true
+    name: proxy
+    driver: bridge
+volumes:
+  ignsnowflake:
+  pgsnowflake:
