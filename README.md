@@ -1,7 +1,7 @@
 # Snowflake
 SnowflakeEnvironment
 
-## Demo Setup
+### Demo Setup
 
 <ol>
     <li>Clear Schema In Snowflake Console</li>
@@ -22,7 +22,7 @@ SnowflakeEnvironment
     <li>From Gateway, Turn MQTT Transmission On</li>
 </ol>
 
-## Demo Shutdown
+### Demo Shutdown
 
 <ol>
     <li>Open Putty</li>
