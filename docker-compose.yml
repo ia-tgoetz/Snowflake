@@ -12,6 +12,8 @@ services:
       - ./gw-init/GatewayBackup.gwbk:/restore.gwbk
       # Ignition data
       - ignsnowflake:/usr/local/bin/ignition/data
+      #Ignition module seeds
+      - ./module-init/MQTT-Transmission-signed.modl:/usr/local/bin/ignition/user-lib/modules/MQTT-Transmission.modl
     labels:
       - traefik.enable=true
       - traefik.hostname=${IGN_HOSTNAME:-ign-snowflake}
