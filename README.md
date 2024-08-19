@@ -9,6 +9,11 @@ SnowflakeEnvironment
       <li>Project ► Worksheets ► Clear Schema</li>
       <li>Run All</li>
     </ul>
+     <li>Open AWS salengdev</li>
+    <ul>
+      <li>us-west-2</li>
+      <li>Select your instance and do an Instance Action Start Instance </li>  
+    </ul>   
     <li>Open Putty</li>
     <ul>
       <li>sudo systemctl start ibsnow.service</li>
