@@ -9,6 +9,14 @@ SnowflakeEnvironment
       <li>Project ► Worksheets ► Clear Schema</li>
       <li>Run All</li>
     </ul>
+         <li>Open AWS salengdev</li>
+    <ul>
+      <li>us-west-2</li>
+      <li>Select your instance and do an Instance State► Start Instance </li>  
+      <li>Right Click on Instance after started ►Instance settings► Modify instance metadata options</li>  
+      <li>IMDSv2 set to Optional</li> 
+      <li>Note Public IP</li> 
+    </ul>   
     <li>Open Putty</li>
     <ul>
       <li>sudo systemctl start ibsnow.service</li>
